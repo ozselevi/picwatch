@@ -1,11 +1,5 @@
+import pytest
 
 
-# test.py
-
-
-def test_basic_math():
-    assert 2 + 2 == 4
-
-def test_string_content():
-    name = "picwatch"
-    assert "watch" in name
+def test_sample():
+    assert 1 + 1 == 2
