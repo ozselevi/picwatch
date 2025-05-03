@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: picwatch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: picwatch
+  template:
+    metadata:
+      labels:
+        app: picwatch
+    spec:
+      containers:
+        - name: picwatch
+          image: ozselevi/picwatch:latest
+          ports:
+            - containerPort: 8000
