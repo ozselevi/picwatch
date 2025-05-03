@@ -1,8 +1,9 @@
-fastapi
-uvicorn
-face-recognition
-python-multipart
-pillow
-celery
-redis
-psycopg2-binary
+#fastapi
+#uvicorn
+#face-recognition
+#python-multipart
+#pillow
+#celery
+#redis
+#psycopg2-binary
+pytest
