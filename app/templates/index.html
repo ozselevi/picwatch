@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PicWatch</title>
+</head>
+<body>
+    <h1>📸 PicWatch</h1>
+
+    <h2>Feltöltés</h2>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*" required>
+        <input type="text" name="description" placeholder="Leírás a képhez">
+        <button type="submit">Feltöltés</button>
+    </form>
+
+    <h2>Feliratkozás értesítésekre</h2>
+    <form action="/subscribe" method="post">
+        <input type="email" name="email" placeholder="Email cím" required>
+        <button type="submit">Feliratkozom</button>
+    </form>
+
+    <h2>Feltöltött képek</h2>
+    <div>
+        {% for image in images %}
+            <div style="margin: 10px 0;">
+                <img src="/static/uploads/{{ image.filename }}" alt="kép" style="max-height: 200px;"><br>
+                <small>{{ image.description }}</small>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
