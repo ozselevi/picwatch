@@ -17,3 +17,6 @@ spec:
           image: ozselevente/picwatch:latest
           ports:
             - containerPort: 8000
+          env:
+            - name: DATABASE_URL
+              value: postgresql://picwatch:picwatch@postgres-service:5432/picwatch_db

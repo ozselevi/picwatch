@@ -1,11 +1,9 @@
-
-
-# app/main.py
 from fastapi import FastAPI
+from . import models, database
+from .routes import upload
+
+models.Base.metadata.create_all(bind=database.engine)
 
 app = FastAPI()
 
-
-@app.get("/")
-def read_root():
-    return {"msg": "Picwatch backend működik"}
+app.include_router(upload.router)
