@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: picwatch
-          image: ozselevente/picwatch:latest
+          image: ozselevente/picwatch:{{ .Values.env.APP_VERSION }}
           ports:
             - containerPort: 8000
           env:
