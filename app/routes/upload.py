@@ -9,6 +9,7 @@ router = APIRouter()
 UPLOAD_DIR = "uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
+
 @router.post("/upload-image/")
 async def upload_image(
     file: UploadFile = File(...),
@@ -19,5 +20,6 @@ async def upload_image(
     with open(file_location, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
-    image = schemas.ImageCreate(filename=file.filename, description=description)
+    image = schemas.ImageCreate(filename=file.filename,
+ description=description)
     return crud.create_image(db, image)
