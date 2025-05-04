@@ -9,7 +9,7 @@ COPY app/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Másoljuk az app mappát (benne a static, templates és egyéb fájlokkal) a konténerbe
-COPY app /app
+COPY app/ /app
 
 # A parancs, ami elindítja az alkalmazást
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
