@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: image-storage-pv
+spec:
+  capacity:
+    storage: 10Gi  # A tárolás maximális mérete
+  accessModes:
+    - ReadWriteOnce  # Csak egy pod használhatja egyszerre az adatokat
+  persistentVolumeReclaimPolicy: Retain  # A PVC törlése nem törli a tároló adatokat
+  hostPath:
+    path: /static/uploads  # A gazdagép helyi mappája
+    type: DirectoryOrCreate  # Ha nem létezik, a Kubernetes létrehozza

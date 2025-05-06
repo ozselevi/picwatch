@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: picwatch-pod
+spec:
+  containers:
+    - name: picwatch-container
+      image: your-image:latest  # A saját Docker képed
+      volumeMounts:
+        - name: image-storage
+          mountPath: /static/uploads  # A podon belüli mappa, ahol a képeket tárolod
+  volumes:
+    - name: image-storage
+      persistentVolumeClaim:
+        claimName: image-storage-pvc  # Hivatkozás a PVC-re
