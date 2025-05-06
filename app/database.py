@@ -1,25 +1,22 @@
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+# database.py
+
+import os
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-DATABASE_URL = "sqlite+aiosqlite:///./app/app.db"
+# --- Könyvtárak létrehozása, ha nem léteznek ---
+os.makedirs("data", exist_ok=True)
 
-# Adatbázis motor létrehozása
-engine = create_async_engine(
-    DATABASE_URL,
-    echo=True,  # Fejlesztéshez hasznos, termelésben állítsd False-ra
+# --- Adatbázis elérési út ---
+DATABASE_URL = "sqlite:///data/picwatch.db"
+
+# --- SQLAlchemy engine ---
+engine = create_engine(
+    DATABASE_URL, connect_args={"check_same_thread": False}
 )
 
-# Session factory létrehozása
-AsyncSessionLocal = sessionmaker(
-    bind=engine,
-    class_=AsyncSession,
-    expire_on_commit=False
-)
+# --- Session létrehozása ---
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Base osztály a modellek számára
+# --- Base osztály, amelyből minden modell származik ---
 Base = declarative_base()
-
-# Dependency injection FastAPI-hoz
-async def get_db():
-    async with AsyncSessionLocal() as session:
-        yield session
