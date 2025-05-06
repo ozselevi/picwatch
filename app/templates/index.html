@@ -1,15 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 <head>
     <meta charset="UTF-8">
     <title>PicWatch</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        .file-upload {
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+
+        .file-upload input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+            height: 100%;
+            width: 100%;
+        }
+
+        form {
+            margin-bottom: 30px;
+        }
+
+        img {
+            max-height: 200px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .image-block {
+            margin: 10px 0;
+        }
+    </style>
 </head>
 <body>
     <h1>📸 PicWatch</h1>
 
     <h2>Feltöltés</h2>
     <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="file" accept="image/*" required>
+        <label class="file-upload">
+            Tallózás képhez
+            <input type="file" name="file" accept="image/*" required>
+        </label>
         <input type="text" name="description" placeholder="Leírás a képhez">
         <button type="submit">Feltöltés</button>
     </form>
@@ -23,8 +73,8 @@
     <h2>Feltöltött képek</h2>
     <div>
         {% for image in images %}
-            <div style="margin: 10px 0;">
-                <img src="/static/uploads/{{ image.filename }}" alt="kép" style="max-height: 200px;"><br>
+            <div class="image-block">
+                <img src="/static/uploads/{{ image.filename }}" alt="kép">
                 <small>{{ image.description }}</small>
             </div>
         {% endfor %}
