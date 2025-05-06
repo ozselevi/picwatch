@@ -8,7 +8,7 @@ spec:
       image: your-image:latest  # A saját Docker képed
       volumeMounts:
         - name: image-storage
-          mountPath: /static/uploads  # A podon belüli mappa, ahol a képeket tárolod
+          mountPath: /app/static/uploads  # A podon belüli mappa, ahol a képeket tárolod
   volumes:
     - name: image-storage
       persistentVolumeClaim:

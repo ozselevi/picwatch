@@ -9,5 +9,5 @@ spec:
     - ReadWriteOnce  # Csak egy pod használhatja egyszerre az adatokat
   persistentVolumeReclaimPolicy: Retain  # A PVC törlése nem törli a tároló adatokat
   hostPath:
-    path: /static/uploads  # A gazdagép helyi mappája
+    path: /mnt/data/uploads  # A gazdagép helyi mappája
     type: DirectoryOrCreate  # Ha nem létezik, a Kubernetes létrehozza
