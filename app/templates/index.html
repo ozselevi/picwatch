@@ -4,25 +4,15 @@
     <meta charset="UTF-8">
     <title>PicWatch</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-        }
-
-        h1, h2 {
-            color: #333;
-        }
-
         .file-upload {
             display: inline-block;
             position: relative;
             overflow: hidden;
             cursor: pointer;
-            background-color: #4CAF50;
+            background-color: #007bff;
             color: white;
             padding: 10px 20px;
-            border-radius: 4px;
-            font-size: 14px;
+            border-radius: 5px;
             margin-right: 10px;
         }
 
@@ -36,18 +26,9 @@
             width: 100%;
         }
 
-        form {
-            margin-bottom: 30px;
-        }
-
-        img {
-            max-height: 200px;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .image-block {
-            margin: 10px 0;
+        #file-name {
+            font-style: italic;
+            color: #333;
         }
     </style>
 </head>
@@ -57,27 +38,24 @@
     <h2>Feltöltés</h2>
     <form action="/upload" method="post" enctype="multipart/form-data">
         <label class="file-upload">
-            Tallózás képhez
-            <input type="file" name="file" accept="image/*" required>
+            Tallózás
+            <input type="file" name="file" accept="image/*" required onchange="showFileName(event)">
         </label>
-        <input type="text" name="description" placeholder="Leírás a képhez">
+        <span id="file-name">Nincs fájl kiválasztva</span><br><br>
+        <input type="text" name="description" placeholder="Leírás a képhez" required>
         <button type="submit">Feltöltés</button>
     </form>
 
-    <h2>Feliratkozás értesítésekre</h2>
-    <form action="/subscribe" method="post">
-        <input type="email" name="email" placeholder="Email cím" required>
-        <button type="submit">Feliratkozom</button>
-    </form>
-
-    <h2>Feltöltött képek</h2>
-    <div>
-        {% for image in images %}
-            <div class="image-block">
-                <img src="/static/uploads/{{ image.filename }}" alt="kép">
-                <small>{{ image.description }}</small>
-            </div>
-        {% endfor %}
-    </div>
+    <script>
+        function showFileName(event) {
+            const fileInput = event.target;
+            const fileNameSpan = document.getElementById("file-name");
+            if (fileInput.files.length > 0) {
+                fileNameSpan.textContent = fileInput.files[0].name;
+            } else {
+                fileNameSpan.textContent = "Nincs fájl kiválasztva";
+            }
+        }
+    </script>
 </body>
 </html>
