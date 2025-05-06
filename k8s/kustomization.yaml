@@ -4,3 +4,4 @@ resources:
   - image-storage-pv.yaml
   - image-storage-pvc.yaml
   - pod.yaml
+  - pvc-db.yaml

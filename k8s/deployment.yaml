@@ -23,7 +23,12 @@ spec:
           volumeMounts:
             - name: image-storage
               mountPath: /app/static/uploads
+            - name: db-storage
+              mountPath: /data
       volumes:
         - name: image-storage
           persistentVolumeClaim:
             claimName: image-storage-pvc
+        - name: db-storage
+          persistentVolumeClaim:
+            claimName: db-pvc
