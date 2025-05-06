@@ -5,7 +5,7 @@ metadata:
 spec:
   containers:
     - name: picwatch-container
-      image: oszelevente/picwatch:latest
+      image: ozselevente/picwatch:latest
       volumeMounts:
         - name: image-storage
           mountPath: /app/static/uploads  # A podon belüli mappa, ahol a képeket tárolod
