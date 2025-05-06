@@ -4,10 +4,10 @@ metadata:
   name: image-storage-pv
 spec:
   capacity:
-    storage: 10Gi  # A tárolás maximális mérete
+    storage: 10Gi
   accessModes:
-    - ReadWriteOnce  # Csak egy pod használhatja egyszerre az adatokat
-  persistentVolumeReclaimPolicy: Retain  # A PVC törlése nem törli a tároló adatokat
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: manual
   hostPath:
-    path: /mnt/data/uploads  # A gazdagép helyi mappája
-    type: DirectoryOrCreate  # Ha nem létezik, a Kubernetes létrehozza
+    path: /mnt/data/image-storage

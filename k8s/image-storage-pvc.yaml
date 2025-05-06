@@ -4,7 +4,8 @@ metadata:
   name: image-storage-pvc
 spec:
   accessModes:
-    - ReadWriteOnce  # Csak egy pod használhatja egyszerre az adatokat
+    - ReadWriteOnce
   resources:
     requests:
-      storage: 10Gi  # A kért tárolás mennyisége
+      storage: 10Gi
+  storageClassName: manual

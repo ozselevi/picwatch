@@ -4,7 +4,6 @@ metadata:
   name: picwatch
 spec:
   replicas: 1
-  revisionHistoryLimit: 3
   selector:
     matchLabels:
       app: picwatch
@@ -16,9 +15,11 @@ spec:
       containers:
         - name: picwatch
           image: ozselevente/picwatch:latest
-          imagePullPolicy: Always
           ports:
             - containerPort: 8000
+          env:
+            - name: DATABASE_URL
+              value: sqlite:///data/picwatch.db
           volumeMounts:
             - name: image-storage
               mountPath: /app/static/uploads
