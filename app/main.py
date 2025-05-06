@@ -33,13 +33,20 @@ async def index(request: Request, db: AsyncSession = Depends(get_db)):
 async def upload_image(
     file: UploadFile = File(...),
     description: str = Form(...),
+    people_count: int = Form(...),
     db: AsyncSession = Depends(get_db)
 ):
+    # Kép mentése a fájlrendszerbe
     save_path = os.path.join(UPLOAD_DIR, file.filename)
     with open(save_path, "wb") as f:
         shutil.copyfileobj(file.file, f)
 
-    image_in = schemas.ImageCreate(filename=file.filename, description=description)
+    # Kép metaadatainak mentése az adatbázisba
+    image_in = schemas.ImageCreate(
+        filename=file.filename,
+        description=description,
+        people_count=people_count
+    )
     await crud.create_image(db, image=image_in)
 
     return RedirectResponse(url="/", status_code=303)
