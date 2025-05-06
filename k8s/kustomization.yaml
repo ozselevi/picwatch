@@ -1,4 +1,7 @@
 resources:
   - deployment.yaml
   - service.yaml
-  - postgres.yaml
+  - image-storage-pvc.yaml
+  - image-storage-pv.yaml
+  - pod.yaml
+  - pvc-db.yaml
