@@ -19,6 +19,10 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
-          env:
-            - name: DATABASE_URL
-              value: postgresql://picwatch:picwatch@postgres-service:5432/picwatch_db
+          volumeMounts:
+            - name: image-storage
+              mountPath: /app/static/uploads
+      volumes:
+        - name: image-storage
+          persistentVolumeClaim:
+            claimName: image-storage-pvc
