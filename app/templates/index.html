@@ -4,15 +4,25 @@
     <meta charset="UTF-8">
     <title>PicWatch</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
         .file-upload {
             display: inline-block;
             position: relative;
             overflow: hidden;
             cursor: pointer;
-            background-color: #007bff;
+            background-color: #4CAF50;
             color: white;
             padding: 10px 20px;
-            border-radius: 5px;
+            border-radius: 4px;
+            font-size: 14px;
             margin-right: 10px;
         }
 
@@ -26,9 +36,18 @@
             width: 100%;
         }
 
-        #file-name {
-            font-style: italic;
-            color: #333;
+        form {
+            margin-bottom: 30px;
+        }
+
+        img {
+            max-height: 200px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .image-block {
+            margin: 10px 0;
         }
     </style>
 </head>
@@ -38,24 +57,27 @@
     <h2>Feltöltés</h2>
     <form action="/upload" method="post" enctype="multipart/form-data">
         <label class="file-upload">
-            Tallózás
-            <input type="file" name="file" accept="image/*" required onchange="showFileName(event)">
+            Tallózás képhez
+            <input type="file" name="file" accept="image/*" required>
         </label>
-        <span id="file-name">Nincs fájl kiválasztva</span><br><br>
-        <input type="text" name="description" placeholder="Leírás a képhez" required>
+        <input type="text" name="description" placeholder="Leírás a képhez">
         <button type="submit">Feltöltés</button>
     </form>
 
-    <script>
-        function showFileName(event) {
-            const fileInput = event.target;
-            const fileNameSpan = document.getElementById("file-name");
-            if (fileInput.files.length > 0) {
-                fileNameSpan.textContent = fileInput.files[0].name;
-            } else {
-                fileNameSpan.textContent = "Nincs fájl kiválasztva";
-            }
-        }
-    </script>
+    <h2>Feliratkozás értesítésekre</h2>
+    <form action="/subscribe" method="post">
+        <input type="email" name="email" placeholder="Email cím" required>
+        <button type="submit">Feliratkozom</button>
+    </form>
+
+    <h2>Feltöltött képek</h2>
+    <div>
+        {% for image in images %}
+            <div class="image-block">
+                <img src="/static/uploads/{{ image.filename }}" alt="kép">
+                <small>{{ image.description }}</small>
+            </div>
+        {% endfor %}
+    </div>
 </body>
 </html>
