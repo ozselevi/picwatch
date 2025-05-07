@@ -1,22 +1,12 @@
 # database.py
-
-import os
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+import os
 
-# --- Könyvtárak létrehozása, ha nem léteznek ---
-os.makedirs("data", exist_ok=True)
+SQLALCHEMY_DATABASE_URL = "postgresql://postgres:your_password@postgres-service:5432/postgres"
 
-# --- Adatbázis elérési út ---
-DATABASE_URL = "sqlite:///data/picwatch.db"
-
-# --- SQLAlchemy engine ---
-engine = create_engine(
-    DATABASE_URL, connect_args={"check_same_thread": False}
-)
-
-# --- Session létrehozása ---
+engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"host": "postgres-service", "port": "5432"})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# --- Base osztály, amelyből minden modell származik ---
 Base = declarative_base()

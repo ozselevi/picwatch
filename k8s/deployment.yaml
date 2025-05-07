@@ -1,3 +1,4 @@
+# picwatch-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -13,7 +14,10 @@ spec:
         app: picwatch
     spec:
       containers:
-        - name: picwatch
-          image: ozselevente/picwatch:latest
-          ports:
-            - containerPort: 8000
+      - name: picwatch
+        image: ozselevente/picwatch:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DATABASE_URL
+          value: postgresql://postgres:your_password@postgres-service:5432/postgres

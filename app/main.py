@@ -5,16 +5,12 @@ from fastapi.templating import Jinja2Templates
 import shutil
 import os
 from sqlalchemy.orm import Session
-from database import SessionLocal, Base
+from database import SessionLocal
 from models import Image, Subscriber
 
 # --- Könyvtárak létrehozása ---
 UPLOAD_DIR = "static/uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
-os.makedirs("data", exist_ok=True)  # Biztosítjuk, hogy az adatbázis mappa létezik
-
-# --- Adatbázis inicializálása ---
-Base.metadata.create_all(bind=SessionLocal().get_bind())  # Létrehozza az adatbázist, ha nem létezik
 
 # --- FastAPI alkalmazás ---
 app = FastAPI()
@@ -25,12 +21,10 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 # HTML sablonok
 templates = Jinja2Templates(directory="templates")
 
-# --- Feltöltött képek listája (memóriában tárolva demo célra) ---
-uploaded_images = []
-
+# --- Alapértelmezett oldal (index) --- 
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
-    # Az adatbázisból lekérjük a képeket és megjelenítjük őket
+    # Az adatbázisból lekérjük a képeket
     db = SessionLocal()
     images = db.query(Image).all()
     db.close()
@@ -40,6 +34,7 @@ async def index(request: Request):
         "images": images
     })
 
+# --- Kép feltöltése ---
 @app.post("/upload")
 async def upload_image(file: UploadFile = File(...), description: str = Form(...)):
     # Kép mentése a fájlrendszerbe
@@ -57,6 +52,7 @@ async def upload_image(file: UploadFile = File(...), description: str = Form(...
     # Visszairányítás a főoldalra
     return RedirectResponse(url="/", status_code=303)
 
+# --- Feliratkozás ---
 @app.post("/subscribe")
 async def subscribe(email: str = Form(...)):
     # Feliratkozás hozzáadása az adatbázishoz
@@ -66,4 +62,5 @@ async def subscribe(email: str = Form(...)):
     db.commit()
     db.close()
 
+    # Visszairányítás a főoldalra
     return RedirectResponse(url="/", status_code=303)
