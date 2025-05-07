@@ -6,4 +6,3 @@ resources:
   - image-storage-pv.yaml
   - image-storage-pvc.yaml
   - pvc-db.yaml
-  - configmap.yaml
