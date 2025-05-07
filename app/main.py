@@ -8,6 +8,8 @@ from sqlalchemy.orm import Session
 from database import SessionLocal
 from models import Image, Subscriber
 
+Base.metadata.create_all(bind=engine)
+
 # --- Könyvtárak létrehozása ---
 UPLOAD_DIR = "static/uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
