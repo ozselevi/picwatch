@@ -1,4 +1,3 @@
-# picwatch-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -21,3 +20,10 @@ spec:
         env:
         - name: DATABASE_URL
           value: postgresql://postgres:your_password@postgres-service:5432/postgres
+        volumeMounts:
+        - name: image-storage
+          mountPath: /app/static/uploads
+      volumes:
+      - name: image-storage
+        persistentVolumeClaim:
+          claimName: image-storage-pvc
