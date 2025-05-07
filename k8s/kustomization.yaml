@@ -3,3 +3,4 @@ resources:
   - service.yaml
   - image-storage-pvc.yaml
   - pvc-db.yaml
+  - image-storage-pv.yaml
