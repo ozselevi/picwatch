@@ -1,8 +1,8 @@
 resources:
   - deployment.yaml
   - service.yaml
-  - postgresql-deployment.yaml
-  - postgresql-service.yaml
+  - pg-deployment.yaml
+  - pg-service.yaml
   - image-storage-pv.yaml
   - image-storage-pvc.yaml
   - pvc-db.yaml
