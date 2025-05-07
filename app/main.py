@@ -9,6 +9,7 @@ from database import Base, engine, SessionLocal
 from models import Image, Subscriber
 
 
+
 Base.metadata.create_all(bind=engine)
 
 # --- Könyvtárak létrehozása ---
