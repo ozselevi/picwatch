@@ -19,7 +19,7 @@ spec:
             - containerPort: 8000
           env:
             - name: DATABASE_URL
-              value: sqlite:///data/picwatch.db
+              value: sqlite:////data/picwatch.db
           volumeMounts:
             - name: image-storage
               mountPath: /app/static/uploads
