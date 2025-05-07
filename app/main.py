@@ -5,8 +5,9 @@ from fastapi.templating import Jinja2Templates
 import shutil
 import os
 from sqlalchemy.orm import Session
-from database import SessionLocal
+from database import Base, engine, SessionLocal
 from models import Image, Subscriber
+
 
 Base.metadata.create_all(bind=engine)
 
