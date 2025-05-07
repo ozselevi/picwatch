@@ -1,8 +1,9 @@
 resources:
-  - deployment.yaml
-  - service.yaml
   - pg-deployment.yaml
   - pg-service.yaml
+  - pg-pvc.yaml
+  - pg-pv.yaml
   - image-storage-pv.yaml
   - image-storage-pvc.yaml
-  - pvc-db.yaml
+  - deployment.yaml
+  - service.yaml
