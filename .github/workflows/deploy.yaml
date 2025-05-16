@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  test-build-push:
+  build-push:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,41 +21,25 @@ jobs:
         with:
           python-version: 3.10.12
 
-      - name: Install system dependencies for face_recognition
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            build-essential \
-            cmake \
-            libboost-all-dev \
-            libopenblas-dev \
-            liblapack-dev \
-            libx11-dev \
-            libgtk-3-dev \
-            libatlas-base-dev \
-            libdlib-dev \
-            libopencv-dev \
-            python3-dev
+      - name: Install minimal system deps
+        run: sudo apt-get update && sudo apt-get install -y libgl1
 
-      - name: Install Python dependencies
+      - name: Install Python deps
         run: |
+          pip install --upgrade pip
+          pip install --only-binary=:all: face_recognition
           pip install -r app/requirements.txt
-
-#      - name: Lint with flake8
-#        run: |
-#          pip install flake8
-#          flake8 app/
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Log in to Docker Hub
+      - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_KEY }}
 
-      - name: Build and push multi-arch Docker image
+      - name: Build & push multi-arch image
         uses: docker/build-push-action@v5
         with:
           context: .
@@ -63,3 +47,4 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: ${{ secrets.DOCKER_USERNAME }}/picwatch:latest
+
