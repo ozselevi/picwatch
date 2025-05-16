@@ -7,7 +7,8 @@ import os
 from sqlalchemy.orm import Session
 from database import Base, engine, SessionLocal
 from models import Image, Subscriber
-
+from fastapi import FastAPI
+from celery_worker import test_task
 
 
 Base.metadata.create_all(bind=engine)
@@ -18,6 +19,11 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 # --- FastAPI alkalmazás ---
 app = FastAPI()
+
+@app.get("/test-celery")
+async def test_celery():
+    test_task.delay("Hello from FastAPI!")
+    return {"message": "Celery task sent!"}
 
 # Statikus fájlok (képek) kezelése
 app.mount("/static", StaticFiles(directory="static"), name="static")
