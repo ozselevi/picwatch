@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from database import Base, engine, SessionLocal
 from models import Image, Subscriber
 from fastapi import FastAPI
-from celery_worker import test_task
+from celery_worker import send_email_notification
 
 
 Base.metadata.create_all(bind=engine)
