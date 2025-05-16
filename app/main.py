@@ -7,8 +7,8 @@ import os
 from sqlalchemy.orm import Session
 from database import Base, engine, SessionLocal
 from models import Image, Subscriber
-import face_recognition
-from PIL import Image as PILImage
+
+
 
 Base.metadata.create_all(bind=engine)
 
@@ -46,18 +46,14 @@ async def upload_image(file: UploadFile = File(...), description: str = Form(...
     with open(save_path, "wb") as f:
         shutil.copyfileobj(file.file, f)
 
-    # Face-recognition: arcok számlálása
-    image = face_recognition.load_image_file(save_path)
-    face_locations = face_recognition.face_locations(image)
-    face_count = len(face_locations)
-
-    # Mentés az adatbázisba
+    # Kép mentése az adatbázisba
     db = SessionLocal()
-    new_image = Image(filename=file.filename, description=description, face_count=face_count)
+    new_image = Image(filename=file.filename, description=description)
     db.add(new_image)
     db.commit()
     db.close()
 
+    # Visszairányítás a főoldalra
     return RedirectResponse(url="/", status_code=303)
 
 # --- Feliratkozás ---

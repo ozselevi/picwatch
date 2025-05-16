@@ -6,11 +6,4 @@
 #celery
 #redis
 #psycopg2-binary
-#pytest
-#pillow
-face_recognition
-pillow
-psycopg2-binary
-fastapi
-uvicorn
-python-multipart
+pytest
