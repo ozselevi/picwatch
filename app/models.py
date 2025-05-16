@@ -6,6 +6,7 @@ class Image(Base):
     id = Column(Integer, primary_key=True, index=True)
     filename = Column(String, index=True)
     description = Column(String)
+    people_detected = Column(Integer)
 
 class Subscriber(Base):
     __tablename__ = "subscribers"

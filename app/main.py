@@ -57,20 +57,30 @@ async def upload_image(file: UploadFile = File(...), description: str = Form(...
     new_image = Image(filename=file.filename, description=description)
     db.add(new_image)
     db.commit()
+    db.refresh(new_image)  # hogy az új id-t is elérjük
+
+    # Feliratkozók lekérése és email értesítés küldése
+    subscribers = db.query(Subscriber).all()
+    for sub in subscribers:
+        msg = f"Új kép: {new_image.description}\nArcok száma: {new_image.people_detected if hasattr(new_image, 'people_detected') else 'N/A'}"
+        send_email_notification.delay(sub.email, "Új kép érkezett", msg)
+
     db.close()
 
     # Visszairányítás a főoldalra
     return RedirectResponse(url="/", status_code=303)
-
 # --- Feliratkozás ---
 @app.post("/subscribe")
 async def subscribe(email: str = Form(...)):
-    # Feliratkozás hozzáadása az adatbázishoz
     db = SessionLocal()
-    new_subscriber = Subscriber(email=email)
-    db.add(new_subscriber)
-    db.commit()
-    db.close()
+    existing = db.query(Subscriber).filter(Subscriber.email == email).first()
 
-    # Visszairányítás a főoldalra
+    if not existing:
+        new_subscriber = Subscriber(email=email)
+        db.add(new_subscriber)
+        db.commit()
+
+        send_past_images_to_user.delay(email)
+
+    db.close()
     return RedirectResponse(url="/", status_code=303)
