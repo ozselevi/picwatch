@@ -6,3 +6,5 @@ psycopg2-binary
 python-multipart
 jinja2
 flask
+face_recognition
+pillow
