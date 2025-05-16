@@ -1,26 +1,32 @@
+# Használj egy hivatalos Python 3.10-es alap image-et
 FROM python:3.10-slim
 
-# Beállítjuk a munkakönyvtárat
-WORKDIR /app
-
-RUN apt-get update && apt-get install -y \
+# Frissítés és alap build függőségek telepítése (dlib, face_recognition miatt)
+RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     cmake \
     libboost-all-dev \
+    libopenblas-dev \
+    liblapack-dev \
+    libx11-dev \
+    libgtk-3-dev \
+    libatlas-base-dev \
+    python3-dev \
+    libdlib-dev \
     libopencv-dev \
-    libglib2.0-0 \
-    libsm6 \
-    libxrender1 \
-    libxext6 \
     && rm -rf /var/lib/apt/lists/*
 
-# Először a requirements.txt fájlt másoljuk és telepítjük a szükséges csomagokat
+# Munkakönyvtár beállítása
+WORKDIR /app
+
+# Másold be a requirements.txt-t és telepítsd a Python függőségeket
 COPY app/requirements.txt .
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
 
-# Másoljuk az app mappát (benne a static, templates és egyéb fájlokkal) a konténerbe
+# Másold be a teljes kódot
 COPY /app /app
 
-# A parancs, ami elindítja az alkalmazást
+# Alap parancs a futtatáshoz (pl. FastAPI)
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
