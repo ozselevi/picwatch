@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: celery
-          image: <a-te-picwatch-image-neved>
+          image: ozselevente/picwatch:latest
           command: ["celery", "-A", "celery_worker", "worker", "--loglevel=info"]
           env:
             - name: BROKER_URL
