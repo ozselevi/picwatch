@@ -10,7 +10,6 @@ from models import Image, Subscriber
 import face_recognition
 from PIL import Image as PILImage
 
-
 Base.metadata.create_all(bind=engine)
 
 # --- Könyvtárak létrehozása ---
