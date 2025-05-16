@@ -7,3 +7,4 @@ resources:
   - image-storage-pvc.yaml
   - deployment.yaml
   - service.yaml
+  - redis-deployment.yaml
