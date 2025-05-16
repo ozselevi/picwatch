@@ -8,7 +8,7 @@
 #psycopg2-binary
 #pytest
 #pillow
-face-recognition
+face_recognition
 pillow
 psycopg2-binary
 fastapi
