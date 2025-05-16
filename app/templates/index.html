@@ -69,13 +69,11 @@
         <input type="email" name="email" placeholder="Email cím" required>
         <button type="submit">Feliratkozom</button>
     </form>
-
-    <h2>Feltöltött képek</h2>
-    <div>
         {% for image in images %}
             <div class="image-block">
                 <img src="/static/uploads/{{ image.filename }}" alt="kép">
                 <small>{{ image.description }}</small>
+                <small>Arcok száma: {{ image.face_count }}</small>                 
             </div>
         {% endfor %}
     </div>

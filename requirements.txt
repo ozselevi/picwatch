@@ -1,9 +1,10 @@
 #fastapi
 #uvicorn
-#face-recognition
+face-recognition
 #python-multipart
 #pillow
 #celery
 #redis
 #psycopg2-binary
 pytest
+pillow

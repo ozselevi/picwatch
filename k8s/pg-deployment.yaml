@@ -18,7 +18,7 @@ spec:
         image: postgres:latest
         env:
         - name: POSTGRES_PASSWORD
-          value: "your_password"  # Állíts be erős jelszót!
+          value: "asd"
         ports:
         - containerPort: 5432
         volumeMounts:
