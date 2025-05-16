@@ -19,23 +19,32 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: 3.10
+          python-version: 3.10.12
 
-      - name: Install system build dependencies
+      - name: Install system dependencies for face_recognition
         run: |
           sudo apt-get update
           sudo apt-get install -y \
-            build-essential cmake \
-            libopenblas-dev liblapack-dev \
-            libx11-dev libgtk-3-dev
+            build-essential \
+            cmake \
+            libboost-all-dev \
+            libopenblas-dev \
+            liblapack-dev \
+            libx11-dev \
+            libgtk-3-dev \
+            libatlas-base-dev \
+            libdlib-dev \
+            libopencv-dev \
+            python3-dev
 
-      - name: Install dependencies
+      - name: Install Python dependencies
         run: |
           pip install -r app/requirements.txt
 
-      # Linting lépés kiszedve
-      # Cache kiszedve
-      # --prefer-binary és --use-feature=fast-deps kiszedve
+#      - name: Lint with flake8
+#        run: |
+#          pip install flake8
+#          flake8 app/
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_KEY }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
