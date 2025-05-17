@@ -8,6 +8,7 @@ jinja2
 flask
 celery
 redis
-face-recognition
+face_recognition==1.3.0
+dlib==19.24.2
 opencv-python-headless
 Pillow
