@@ -2,6 +2,7 @@ from celery import Celery
 import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+from database import Base, engine, SessionLocal
 
 celery_app = Celery(
     "worker",
@@ -11,10 +12,6 @@ celery_app = Celery(
 @celery_app.task
 def send_past_images_to_user(email):
     logger.info(f"Email küldés elindult {email} címre (múltbeli képek)")
-
-    from database import SessionLocal
-    from models import ImageModel
-    from celery_worker import send_email_notification
 
     db = SessionLocal()
     images = db.query(ImageModel).all()
