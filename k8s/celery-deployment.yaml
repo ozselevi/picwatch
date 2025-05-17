@@ -21,11 +21,6 @@ spec:
               value: redis://redis:6379/0
             - name: PYTHONPATH
               value: /app
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-secret
-                  key: POSTGRES_PASSWORD
             - name: DATABASE_URL
               value: postgresql://postgres:yourpassword@postgres-service:5432/postgres
           resources:
