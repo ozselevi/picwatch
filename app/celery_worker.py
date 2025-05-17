@@ -1,4 +1,7 @@
 from celery import Celery
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 celery_app = Celery(
     "worker",
@@ -7,6 +10,8 @@ celery_app = Celery(
 
 @celery_app.task
 def send_past_images_to_user(email):
+    logger.info(f"Email küldés elindult {email} címre (múltbeli képek)")
+
     from database import SessionLocal
     from models import ImageModel
     from celery_worker import send_email_notification
@@ -15,6 +20,7 @@ def send_past_images_to_user(email):
     images = db.query(ImageModel).all()
 
     if not images:
+        logger.warning("Nincs kép az adatbázisban.")
         db.close()
         return
 
@@ -22,6 +28,7 @@ def send_past_images_to_user(email):
     for img in images:
         message += f"- {img.description} | Arcok száma: {img.people_detected}\n"
 
+    logger.info(f"{len(images)} kép lekérve, email küldése folyamatban...")
     send_email_notification.delay(email, "Eddigi képek összefoglalója", message)
     db.close()
 
@@ -30,12 +37,18 @@ def send_email_notification(to_email, subject, body):
     import smtplib
     from email.mime.text import MIMEText
 
+    logger.info(f"Email küldése: {to_email} | Tárgy: {subject}")
+
     msg = MIMEText(body)
     msg["Subject"] = subject
     msg["From"] = "noreply@yourdomain.com"
     msg["To"] = to_email
 
-    with smtplib.SMTP("smtp.gmail.com", 587) as server:
-        server.starttls()
-        server.login("ozsel01@gmail.com", "lzulboklmqhahzlo")
-        server.send_message(msg)
+    try:
+        with smtplib.SMTP("smtp.gmail.com", 587) as server:
+            server.starttls()
+            server.login("ozsel01@gmail.com", "faetdhkwtmxaazrd")
+            server.send_message(msg)
+        logger.info("Email sikeresen elküldve.")
+    except Exception as e:
+        logger.error(f"Hiba történt email küldés közben: {e}")
