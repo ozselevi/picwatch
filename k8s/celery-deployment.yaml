@@ -27,7 +27,7 @@ spec:
                   name: postgres-secret
                   key: POSTGRES_PASSWORD
             - name: DATABASE_URL
-              value: postgresql://postgres:your_password@postgres-service:5432/postgres
+              value: postgresql://postgres:yourpassword@postgres-service:5432/postgres
           resources:
             limits:
               memory: "256Mi"
