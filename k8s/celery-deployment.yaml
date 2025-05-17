@@ -19,6 +19,8 @@ spec:
           env:
             - name: BROKER_URL
               value: redis://redis:6379/0
+            - name: PYTHONPATH
+              value: /app
           resources:
             limits:
               memory: "256Mi"
