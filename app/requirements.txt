@@ -1,3 +1,4 @@
+--find-links ./wheels
 fastapi
 uvicorn[standard]
 sqlalchemy
