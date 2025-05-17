@@ -76,6 +76,7 @@
             <div class="image-block">
                 <img src="/static/uploads/{{ image.filename }}" alt="kép">
                 <small>{{ image.description }}</small>
+                <small>👤 Felismert arcok száma: {{ image.people_detected if image.people_detected is not none else 'N/A' }}</small>
             </div>
         {% endfor %}
     </div>

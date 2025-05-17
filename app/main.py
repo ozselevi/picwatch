@@ -9,7 +9,9 @@ from database import Base, engine, SessionLocal
 from models import Image, Subscriber
 from fastapi import FastAPI
 from celery_worker import send_email_notification, send_past_images_to_user
-
+import face_recognition
+import cv2
+from PIL import Image as PILImage, ImageDraw
 
 Base.metadata.create_all(bind=engine)
 
@@ -47,28 +49,43 @@ async def index(request: Request):
 # --- Kép feltöltése ---
 @app.post("/upload")
 async def upload_image(file: UploadFile = File(...), description: str = Form(...)):
-    # Kép mentése a fájlrendszerbe
-    save_path = os.path.join(UPLOAD_DIR, file.filename)
-    with open(save_path, "wb") as f:
-        shutil.copyfileobj(file.file, f)
+    # Kép mentése ideiglenesen
+    contents = await file.read()
+    original_path = os.path.join(UPLOAD_DIR, file.filename)
+    with open(original_path, "wb") as f:
+        f.write(contents)
 
-    # Kép mentése az adatbázisba
+    # Arcok detektálása
+    image_np = face_recognition.load_image_file(original_path)
+    face_locations = face_recognition.face_locations(image_np)
+    people_count = len(face_locations)
+
+    # Arcok bekeretezése
+    pil_image = PILImage.fromarray(image_np)
+    draw = ImageDraw.Draw(pil_image)
+    for top, right, bottom, left in face_locations:
+        draw.rectangle(((left, top), (right, bottom)), outline=(0, 255, 0), width=3)
+
+    # Felülírt kép mentése bekeretezve
+    pil_image.save(original_path)
+
+    # Adatbázisba mentés
     db = SessionLocal()
-    new_image = Image(filename=file.filename, description=description)
+    new_image = Image(filename=file.filename, description=description, people_detected=people_count)
     db.add(new_image)
     db.commit()
-    db.refresh(new_image)  # hogy az új id-t is elérjük
+    db.refresh(new_image)
 
-    # Feliratkozók lekérése és email értesítés küldése
+    # Értesítés
     subscribers = db.query(Subscriber).all()
     for sub in subscribers:
-        msg = f"Új kép: {new_image.description}\nArcok száma: {new_image.people_detected if hasattr(new_image, 'people_detected') else 'N/A'}"
+        msg = f"Új kép: {new_image.description}\nArcok száma: {new_image.people_detected}"
         send_email_notification.delay(sub.email, "Új kép érkezett", msg)
 
     db.close()
 
-    # Visszairányítás a főoldalra
     return RedirectResponse(url="/", status_code=303)
+
 # --- Feliratkozás ---
 @app.post("/subscribe")
 async def subscribe(email: str = Form(...)):
