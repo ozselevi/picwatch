@@ -3,6 +3,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 from database import Base, engine, SessionLocal
+from models import Image as ImageModel
 
 celery_app = Celery(
     "worker",
