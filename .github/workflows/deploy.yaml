@@ -21,9 +21,9 @@ jobs:
         with:
           python-version: 3.10.12
 
-      - name: Install dependencies
-        run: |
-          pip install -r app/requirements.txt
+#      - name: Install dependencies
+#        run: |
+#          pip install -r app/requirements.txt
 
 #      - name: Lint with flake8
 #        run: |
