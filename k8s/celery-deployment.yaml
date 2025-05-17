@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: celery-worker
 spec:
+  revisionHistoryLimit: 3
   replicas: 1
   selector:
     matchLabels:
@@ -19,8 +20,6 @@ spec:
           env:
             - name: BROKER_URL
               value: redis://redis:6379/0
-            - name: PYTHONPATH
-              value: /app
             - name: DATABASE_URL
               value: postgresql://postgres:your_password@postgres-service:5432/postgres
           resources:
