@@ -14,6 +14,9 @@ RUN apt-get update && apt-get install -y \
     libgtk-3-dev \
     && rm -rf /var/lib/apt/lists/*
 
+# Frissítsük a pip-et és telepítsük a cmake legújabb verzióját pipen keresztül
+RUN pip install --upgrade pip setuptools wheel cmake
+
 COPY app/requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
