@@ -22,7 +22,7 @@ spec:
             - name: PYTHONPATH
               value: /app
             - name: DATABASE_URL
-              value: postgresql://postgres:yourpassword@postgres-service:5432/postgres
+              value: postgresql://postgres:your_password@postgres-service:5432/postgres
           resources:
             limits:
               memory: "256Mi"
