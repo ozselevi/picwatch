@@ -2,10 +2,16 @@ FROM python:3.10
 
 WORKDIR /app
 
-# Telepítjük a szükséges rendszerszintű csomagokat cmake-hez és fordításhoz
 RUN apt-get update && apt-get install -y \
     cmake \
     build-essential \
+    python3-dev \
+    pkg-config \
+    libboost-all-dev \
+    libopenblas-dev \
+    liblapack-dev \
+    libx11-dev \
+    libgtk-3-dev \
     && rm -rf /var/lib/apt/lists/*
 
 COPY app/requirements.txt .
