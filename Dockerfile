@@ -1,15 +1,19 @@
 FROM python:3.10-slim
 
-# Beállítjuk a munkakönyvtárat
+# Munkakönyvtár beállítása
 WORKDIR /app
 
-# Először a requirements.txt fájlt másoljuk és telepítjük a szükséges csomagokat
+# Szükséges fájlok másolása
 COPY app/requirements.txt .
 
+# Csomagok telepítése
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Másoljuk az app mappát (benne a static, templates és egyéb fájlokkal) a konténerbe
-COPY /app /app
+# Teljes app könyvtár másolása
+COPY app/ /app/
 
-# A parancs, ami elindítja az alkalmazást
+# PYTHONPATH beállítása, hogy a /app mappát tartalmazza
+ENV PYTHONPATH=/app
+
+# Alkalmazás indítása (FastAPI)
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
