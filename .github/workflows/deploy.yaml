@@ -44,7 +44,8 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install fastapi uvicorn httpx pytest pytest-asyncio sqlalchemy psycopg2-binary celery python-dotenv face_recognition
+          pip install -r requirements.txt
+          pip install httpx
 
       - name: Run tests
         run: python -m pytest app/tests/
