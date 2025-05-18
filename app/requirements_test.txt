@@ -10,4 +10,5 @@ redis
 face_recognition==1.3.0
 opencv-python-headless
 Pillow
+pytest
 --find-links ./wheels
