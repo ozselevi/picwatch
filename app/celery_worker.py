@@ -1,9 +1,13 @@
 from celery import Celery
+import os
+from dotenv import load_dotenv
 import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 from database import SessionLocal
 from models import Image as ImageModel
+
+load_dotenv()
 
 celery_app = Celery(
     "worker",
@@ -45,7 +49,7 @@ def send_email_notification(to_email, subject, body):
     try:
         with smtplib.SMTP("smtp.gmail.com", 587) as server:
             server.starttls()
-            server.login("ozsel01@gmail.com", "faetdhkwtmxaazrd")
+            server.login(os.getenv("EMAIL_USER"), os.getenv("EMAIL_PASS"))
             server.send_message(msg)
         logger.info("Email sikeresen elküldve.")
     except Exception as e:

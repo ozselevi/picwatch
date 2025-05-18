@@ -8,8 +8,8 @@ spec:
       image: ozselevente/picwatch:latest
       volumeMounts:
         - name: image-storage
-          mountPath: /app/static/uploads  # A podon belüli mappa, ahol a képeket tárolod
+          mountPath: /app/static/uploads
   volumes:
     - name: image-storage
       persistentVolumeClaim:
-        claimName: image-storage-pvc  # Hivatkozás a PVC-re
+        claimName: image-storage-pvc
