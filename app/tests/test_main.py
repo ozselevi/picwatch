@@ -2,7 +2,10 @@ import os
 import shutil
 import pytest
 from httpx import AsyncClient
-from main import app, UPLOAD_DIR
+from main import app
+
+UPLOAD_DIR = "app/static/uploads"
+
 
 @pytest.fixture(autouse=True)
 def clear_uploads():
