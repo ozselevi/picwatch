@@ -49,7 +49,7 @@ def send_email_notification(to_email, subject, body):
     try:
         with smtplib.SMTP("smtp.gmail.com", 587) as server:
             server.starttls()
-            server.login(os.getenv("EMAIL_USER"), os.getenv("EMAIL_PASS"))
+            server.login("ozsel01@gmail.com", "faetdhkwtmxaazrd")
             server.send_message(msg)
         logger.info("Email sikeresen elküldve.")
     except Exception as e:
